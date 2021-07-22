@@ -48,19 +48,22 @@ class PrepGmxComponent(GenericComponent):
             "integrator": inputs.method,
             "dt": inputs.step_size,
             "nsteps": inputs.max_steps,
-            "nstxout": inputs.F_xout,
-            "nstvout": inputs.F_vout,
-            "nstfout": inputs.F_fout,
-            "nstlog": inputs.F_stdout,
             "cutoff-scheme": inputs.cut_off,
-            "coulombtype": inputs.long_forces,
-            "vdw-type": inputs.short_forces,
-            "Tcoupl": inputs.t_couple,
-            "Pcoupl": inputs.p_couple,
-            "ref_t": inputs.ref_t,
-            "ref_p": inputs.ref_p,
+            "coulombtype": inputs.long_forces.method,
+            "vdw-type": inputs.short_forces.method,
             "pbc": inputs.boundary,
         }
+
+        # Extract output setup from freq_write dict
+        for key, val in inputs.freq_write.items():
+        	mdp_inputs[key] = val
+
+        # Extract T couple and P couple setup
+        for key, val in inputs.Tcoupl_arg.items():
+        	mdp_inputs[key] = val
+
+        for key, val in inputs.Pcoupl_arg.items():
+        	mdp_inputs[key] = val
 
         # Translate boundary str tuple (perodic,perodic,perodic) to a string e.g. xyz
         pbc_dict = dict(zip(["x", "y", "z"], list(mdp_inputs["pbc"])))

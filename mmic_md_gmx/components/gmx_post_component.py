@@ -1,5 +1,5 @@
 # Import models
-from mmic_optim.models.output import OptimOutput
+from mmic_md.models.output import MDOutput
 from mmelemental.models import Molecule, Trajectory
 from ..models import ComputeGmxOutput
 
@@ -21,7 +21,7 @@ class PostGmxComponent(GenericComponent):
 
     @classmethod
     def output(cls):
-        return OptimOutput
+        return MDOutput
 
     def execute(
         self,
@@ -30,7 +30,7 @@ class PostGmxComponent(GenericComponent):
         extra_commands: Optional[List[str]] = None,
         scratch_name: Optional[str] = None,
         timeout: Optional[int] = None,
-    ) -> Tuple[bool, OptimOutput]:
+    ) -> Tuple[bool, MDOutput]:
 
         """
         This method translate the output of em
@@ -59,7 +59,7 @@ class PostGmxComponent(GenericComponent):
         }
         self.cleanup([inputs.scratch_dir])
 
-        return True, OptimOutput(
+        return True, MDOutput(
             proc_input=inputs.proc_input, molecule=mol, trajectory=traj
         )
 
