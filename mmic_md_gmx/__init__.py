@@ -16,5 +16,3 @@ __git_revision__ = versions["full-revisionid"]
 del get_versions, versions
 
 
-# Main component used by MMIC class I components
-_mainComponent = components.Component
