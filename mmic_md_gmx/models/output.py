@@ -1,5 +1,5 @@
 from mmelemental.models.base import ProtoModel
-from mmic_md.models import MDOutput
+from mmic_md.models import MDInput
 from pydantic import Field
 
 
