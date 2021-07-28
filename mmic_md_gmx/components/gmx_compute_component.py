@@ -97,7 +97,7 @@ class ComputeGmxComponent(GenericComponent):
             env["OMP_NUM_THREADS"] = str(config.ncores)
 
         scratch_directory = config.scratch_directory if config else None
-        
+
         tpr_file = inputs["tpr_file"]
 
         clean_files = []
@@ -168,7 +168,7 @@ class ComputeGmxComponent(GenericComponent):
 
         # For extra args
         if inputs["proc_input"].keywords:
-            for key, val in inputs["proc_input"].keywords.items():		
+            for key, val in inputs["proc_input"].keywords.items():
                 if val:
                     cmd.extend([key, val])
                 else:

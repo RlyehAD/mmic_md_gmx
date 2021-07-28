@@ -55,14 +55,14 @@ class PrepGmxComponent(GenericComponent):
 
         # Extract output setup from freq_write dict
         for key, val in inputs.freq_write.items():
-        	mdp_inputs[key] = val
+            mdp_inputs[key] = val
 
         # Extract T couple and P couple setup
         for key, val in inputs.Tcoupl_arg.items():
-        	mdp_inputs[key] = val
+            mdp_inputs[key] = val
 
         for key, val in inputs.Pcoupl_arg.items():
-        	mdp_inputs[key] = val
+            mdp_inputs[key] = val
 
         # Translate boundary str tuple (perodic,perodic,perodic) to a string e.g. xyz
         pbc_dict = dict(zip(["x", "y", "z"], list(mdp_inputs["pbc"])))
