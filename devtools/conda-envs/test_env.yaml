@@ -1,20 +1,29 @@
 name: test
+
 channels:
-
   - conda-forge
-
+  - bioconda
   - defaults
+  
 dependencies:
     # Base depends
   - python
   - pip
-
+  - gromacs
     # Testing
   - pytest
-  - pytest-cov
-  - codecov
-
+  - mdanalysis
+  
     # Pip-only installs
-  #- pip:
-  #  - codecov
-
+  - pip:
+    - cmselemental
+    - git+https://github.com/parmed/parmed.git
+    - mmic
+    - git+https://github.com/MolSSI/mmic_optim.git
+    - git+https://github.com/MolSSI/mmelemental.git
+    - git+https://github.com/MolSSI/mmic_translator.git
+    - git+https://github.com/MolSSI/mmic_parmed.git
+    - git+https://github.com/MolSSI/mmic_mda.git
+    - git+https://github.com/MolSSI/mmic_cmd.git
+    - git+https://github.com/MolSSI/mm_data.git
+    - git+https://github.com/Andrew-AbiMansour/qcengine@execute
