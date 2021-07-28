@@ -48,7 +48,6 @@ class PrepGmxComponent(GenericComponent):
             "integrator": inputs.method,
             "dt": inputs.step_size,
             "nsteps": inputs.max_steps,
-            "cutoff-scheme": inputs.cut_off,
             "coulombtype": inputs.long_forces.method,
             "vdw-type": inputs.short_forces.method,
             "pbc": inputs.boundary,
@@ -113,6 +112,8 @@ class PrepGmxComponent(GenericComponent):
             forcefield=top_file,
             molecule=boxed_gro_file,
             scratch_dir=scratch_dir,
+            schema_name=inputs.schema_name,
+            schema_version=inputs.schema_version,
         )
 
         return True, gmx_compute

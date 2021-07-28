@@ -167,8 +167,8 @@ class ComputeGmxComponent(GenericComponent):
         outfiles = [trr_file, gro_file]
 
         # For extra args
-        if inputs["proc_input"].kwargs:
-            for key, val in inputs["proc_input"].kwargs.items():		
+        if inputs["proc_input"].keywords:
+            for key, val in inputs["proc_input"].keywords.items():		
                 if val:
                     cmd.extend([key, val])
                 else:
@@ -201,6 +201,4 @@ class ComputeGmxComponent(GenericComponent):
             molecule=conf,
             trajectory=traj,
             scratch_dir=scratch_dir,
-            # stdout=stdout,
-            # stderr=stderr,
         )

@@ -1,4 +1,4 @@
-from mmelemental.models.proc.base import ProcInput
+from cmselemental.models.procedures import ProcInput
 from mmic_md.models import MDInput
 from pydantic import Field
 

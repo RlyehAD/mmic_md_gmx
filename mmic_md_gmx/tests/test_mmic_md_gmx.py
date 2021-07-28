@@ -32,7 +32,8 @@ def test_md_conponent():
 
 	inputs = mmic_md.MDInput(
 		engine="gmx",
-		component="mmic_md",
+		schema_name="test",
+		schema_version=1.0,
 		molecule={"mol": mol},
 		forcefield={"mol": ff},
 		boundary=(
@@ -49,7 +50,6 @@ def test_md_conponent():
 		freq_write={"nstxout":5, "nstvout":5, "nstenergy":5, "nstlog":5},
 		long_forces={"method": "PME"},
 		short_forces={"method": "Cutoff"},
-		cut_off="Verlet",
 		Tcoupl_arg={"tcoupl": "Berendsen", "tc-grps": "system", "tau-t": 0.1, "ref-t": 300},
 		Pcoupl_arg={"pcoupl":"no"},
 	)
