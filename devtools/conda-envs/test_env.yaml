@@ -10,7 +10,7 @@ dependencies:
   - python
   - pip
   - gromacs
-    # Testing
+    # For Testing
   - codecov
   - pytest
   - pytest-cov
