@@ -3,7 +3,7 @@ from ..models import ComputeGmxInput, ComputeGmxOutput
 
 # Import components
 from mmic_cmd.components import CmdComponent
-from mmelemental.util.files import random_file
+from cmselemental.util.files import random_file
 from mmic.components.blueprints import GenericComponent
 
 from typing import Dict, Any, List, Tuple, Optional

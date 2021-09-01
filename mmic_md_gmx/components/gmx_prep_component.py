@@ -1,7 +1,7 @@
 # Import models
 from mmic_md.models.input import MDInput
 from mmic_md_gmx.models import ComputeGmxInput
-from mmelemental.util.files import random_file
+from cmselemental.util.files import random_file
 
 # Import components
 from mmic_cmd.components import CmdComponent
