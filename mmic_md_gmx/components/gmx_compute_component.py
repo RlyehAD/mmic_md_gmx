@@ -65,6 +65,7 @@ class ComputeGmxComponent(GenericComponent):
         input_model = {"proc_input": proc_input, "tpr_file": tpr_file}
         cmd_input_mdrun = self.build_input_mdrun(input_model)
         rvalue = CmdComponent.compute(cmd_input_mdrun)
+        self.cleanup([tpr_file, gro_file])
         self.cleanup([tpr_dir])
 
         return True, self.parse_output(
