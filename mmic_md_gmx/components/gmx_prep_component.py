@@ -7,6 +7,7 @@ from cmselemental.util.files import random_file
 from mmic_cmd.components import CmdComponent
 from mmic.components.blueprints import GenericComponent
 
+from pathlib import Path
 from typing import Any, Dict, List, Tuple, Optional
 import os
 
@@ -102,7 +103,7 @@ class PrepGmxComponent(GenericComponent):
         }
         clean_files, cmd_input = self.build_input(input_model)
         rvalue = CmdComponent.compute(cmd_input)
-        boxed_gro_file = str(rvalue.outfiles[boxed_gro_file])
+
         scratch_dir = str(rvalue.scratch_directory)
         self.cleanup(clean_files)  # Del the gro in the working dir
 
@@ -162,8 +163,8 @@ class PrepGmxComponent(GenericComponent):
         return clean_files, {
             "command": cmd,
             "infiles": [inputs["gro_file"]],
-            "outfiles": outfiles,
-            "outfiles_track": outfiles,
+            "outfiles": [Path(file).name for file in outfiles],
+            "outfiles_track": [Path(file).name for file in outfiles],
             "scratch_directory": scratch_directory,
             "environment": env,
             "scratch_messy": True,

@@ -12,7 +12,6 @@ from typing import Optional, Tuple, List, Any
 __all__ = ["MDGmxComponent"]
 
 
-
 class MDGmxComponent(TacticComponent):
     """Main entry component for running md simulation."""
 
