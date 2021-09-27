@@ -1,7 +1,6 @@
 # Import models
 from mmic_md.models.input import MDInput
 from mmic_md_gmx.models import ComputeGmxInput
-from cmselemental.util.files import random_file
 
 # Import components
 from mmic_cmd.components import CmdComponent
@@ -10,6 +9,7 @@ from mmic.components.blueprints import GenericComponent
 from pathlib import Path
 from typing import Any, Dict, List, Tuple, Optional
 import os
+import tempfile
 
 __all__ = ["PrepGmxComponent"]
 _supported_solvents = ("spc", "tip3p", "tip4p")  # This line may be delete later
@@ -76,7 +76,7 @@ class PrepGmxComponent(GenericComponent):
         mdp_inputs["pbc"] = pbc
 
         # Write .mdp file
-        mdp_file = random_file(suffix=".mdp")
+        mdp_file = tempfile.NamedTemporaryFile(suffix=".mdp")
         with open(mdp_file, "w") as inp:
             for key, val in mdp_inputs.items():
                 inp.write(f"{key} = {val}\n")
@@ -89,9 +89,9 @@ class PrepGmxComponent(GenericComponent):
         ).pop()  # Here ff_name gets actually the related mol name, but it will not be used
         mol_name, mol = list(mols.items()).pop()
 
-        gro_file = random_file(suffix=".gro")  # output gro
-        top_file = random_file(suffix=".top")
-        boxed_gro_file = random_file(suffix=".gro")
+        gro_file = tempfile.NamedTemporaryFile(suffix=".gro")  # output gro
+        top_file = tempfile.NamedTemporaryFile(suffix=".top")
+        boxed_gro_file = tempfile.NamedTemporaryFile(suffix=".gro")
 
         mol.to_file(gro_file, translator="mmic_parmed")
         ff.to_file(top_file, translator="mmic_parmed")
@@ -160,12 +160,15 @@ class PrepGmxComponent(GenericComponent):
         ]
         outfiles = [boxed_gro_file]
 
-        return clean_files, {
-            "command": cmd,
-            "infiles": [inputs["gro_file"]],
-            "outfiles": [Path(file).name for file in outfiles],
-            "outfiles_track": [Path(file).name for file in outfiles],
-            "scratch_directory": scratch_directory,
-            "environment": env,
-            "scratch_messy": True,
-        }
+        return (
+            clean_files,
+            {
+                "command": cmd,
+                "infiles": [inputs["gro_file"]],
+                "outfiles": [Path(file).name for file in outfiles],
+                "outfiles_track": [Path(file).name for file in outfiles],
+                "scratch_directory": scratch_directory,
+                "environment": env,
+                "scratch_messy": True,
+            },
+        )

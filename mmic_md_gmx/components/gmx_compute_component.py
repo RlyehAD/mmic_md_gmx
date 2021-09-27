@@ -3,13 +3,13 @@ from ..models import ComputeGmxInput, ComputeGmxOutput
 
 # Import components
 from mmic_cmd.components import CmdComponent
-from cmselemental.util.files import random_file
 from mmic.components.blueprints import GenericComponent
 
 from typing import Dict, Any, List, Tuple, Optional
 from pathlib import Path
 import os
 import shutil
+import tempfile
 
 __all__ = ["ComputeGmxComponent"]
 
@@ -44,7 +44,7 @@ class ComputeGmxComponent(GenericComponent):
             inputs.forcefield,
         )
 
-        tpr_file = random_file(suffix=".tpr")
+        tpr_file = tempfile.NamedTemporaryFile(suffix=".tpr")
         # tpr file's name must be defined out of input builders
 
         input_model = {
@@ -68,10 +68,7 @@ class ComputeGmxComponent(GenericComponent):
         self.cleanup([tpr_file, gro_file])
         self.cleanup([tpr_dir])
 
-        return True, self.parse_output(
-            rvalue.dict(),
-            proc_input,
-        )
+        return True, self.parse_output(rvalue.dict(), proc_input)
 
     @staticmethod
     def cleanup(remove: List[str]):
@@ -122,15 +119,18 @@ class ComputeGmxComponent(GenericComponent):
         ]
         outfiles = [tpr_file]
 
-        return clean_files, {
-            "command": cmd,
-            "infiles": [inputs["mdp_file"], inputs["gro_file"], inputs["top_file"]],
-            "outfiles": [Path(file).name for file in outfiles],
-            "outfiles_track": [Path(file).name for file in outfiles],
-            "scratch_directory": scratch_directory,
-            "environment": env,
-            "scratch_messy": True,
-        }
+        return (
+            clean_files,
+            {
+                "command": cmd,
+                "infiles": [inputs["mdp_file"], inputs["gro_file"], inputs["top_file"]],
+                "outfiles": [Path(file).name for file in outfiles],
+                "outfiles_track": [Path(file).name for file in outfiles],
+                "scratch_directory": scratch_directory,
+                "environment": env,
+                "scratch_messy": True,
+            },
+        )
 
     def build_input_mdrun(
         self,
@@ -147,10 +147,10 @@ class ComputeGmxComponent(GenericComponent):
 
         scratch_directory = config.scratch_directory if config else None
 
-        log_fname = Path(random_file(suffix=".log")).name
-        trr_fname = Path(random_file(suffix=".trr")).name
-        edr_fname = Path(random_file(suffix=".edr")).name
-        gro_fname = Path(random_file(suffix=".gro")).name
+        log_fname = Path(tempfile.NamedTemporaryFile(suffix=".log")).name
+        trr_fname = Path(tempfile.NamedTemporaryFile(suffix=".trr")).name
+        edr_fname = Path(tempfile.NamedTemporaryFile(suffix=".edr")).name
+        gro_fname = Path(tempfile.NamedTemporaryFile(suffix=".gro")).name
 
         tpr_file = inputs["tpr_file"]
 
