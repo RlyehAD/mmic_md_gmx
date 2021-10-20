@@ -104,7 +104,9 @@ class PrepGmxComponent(GenericComponent):
 
         mol, ff = list(inputs.system.items()).pop()
 
-        gro_file = tempfile.NamedTemporaryFile(suffix=".gro", delete=False)  # output gro
+        gro_file = tempfile.NamedTemporaryFile(
+            suffix=".gro", delete=False
+        )  # output gro
         top_file = tempfile.NamedTemporaryFile(suffix=".top", delete=False)
         boxed_gro_file = tempfile.NamedTemporaryFile(suffix=".gro", delete=False)
 

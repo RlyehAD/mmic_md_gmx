@@ -78,7 +78,7 @@ class ComputeGmxComponent(GenericComponent):
         cmd_input_mdrun = self.build_input_mdrun(input_model)
         rvalue = CmdComponent.compute(cmd_input_mdrun)
         self.cleanup([tpr_file.name, gro_file])
-        #self.cleanup([tpr_dir])
+        # self.cleanup([tpr_dir])
 
         return True, self.parse_output(rvalue.dict(), proc_input)
 
@@ -194,7 +194,7 @@ class ComputeGmxComponent(GenericComponent):
 
         return {
             "command": cmd,
-            "as_binary": [tpr_fname, trr_file.name, edr_file.name,],
+            "as_binary": [tpr_fname, trr_file.name, edr_file.name],
             "infiles": [tpr_file],
             "outfiles": outfiles,
             "outfiles_track": outfiles,
@@ -215,8 +215,5 @@ class ComputeGmxComponent(GenericComponent):
         # Deal with energy, log files later ... ?
 
         return self.output(
-            proc_input=inputs,
-            molecule=conf,
-            trajectory=traj,
-            scratch_dir=scratch_dir,
+            proc_input=inputs, molecule=conf, trajectory=traj, scratch_dir=scratch_dir
         )

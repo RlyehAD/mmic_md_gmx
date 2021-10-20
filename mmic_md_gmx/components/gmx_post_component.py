@@ -81,13 +81,16 @@ class PostGmxComponent(GenericComponent):
         mols = [mol]
         self.cleanup([inputs.scratch_dir])
 
-        return True, OutputMD(
-            proc_input=inputs.proc_input,
-            molecule=mols,
-            trajectory=traj,
-            schema_name=inputs.proc_input.schema_name,
-            schema_version=inputs.proc_input.schema_version,
-            success=True,
+        return (
+            True,
+            OutputMD(
+                proc_input=inputs.proc_input,
+                molecule=mols,
+                trajectory=traj,
+                schema_name=inputs.proc_input.schema_name,
+                schema_version=inputs.proc_input.schema_version,
+                success=True,
+            ),
         )
 
     @staticmethod
