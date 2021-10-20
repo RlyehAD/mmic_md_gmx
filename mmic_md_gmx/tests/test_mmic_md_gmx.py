@@ -34,8 +34,7 @@ def test_md_component():
         engine="gmx",
         schema_name="test",
         schema_version=1.0,
-        molecule={"mol": mol},
-        forcefield={"mol": ff},
+        system = {mol:ff},
         boundary=(
             "periodic",
             "periodic",
@@ -50,13 +49,13 @@ def test_md_component():
         freq_write={"nstxout": 5, "nstvout": 5, "nstenergy": 5, "nstlog": 5},
         long_forces={"method": "PME"},
         short_forces={"method": "Cutoff"},
-        Tcoupl_arg={
+        temp_couple={
             "tcoupl": "Berendsen",
             "tc-grps": "system",
             "tau-t": 0.1,
             "ref-t": 300,
         },
-        Pcoupl_arg={"pcoupl": "no"},
+        press_couple={"pcoupl": "no"},
     )
 
     outputs = MDGmxComponent.compute(inputs)

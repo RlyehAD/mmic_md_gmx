@@ -47,32 +47,43 @@ class PostGmxComponent(GenericComponent):
         This method translate the output of em
         to mmic schema. But right now it can only
         be applied to single molecule conditions
+        20/10/21 Now for trajctories, the code can 
+        handle multiple molecules.
         """
 
-        traj_file = inputs.trajectory
+        if isinstance(inputs, dict):
+            inputs = self.input(**inputs)
+
+        traj_names = []
+        traj = {}
+
+        for key in list(inputs.proc_input.system):
+            traj_names.append(key.name)
+
+        traj_file = [inputs.trajectory]
+
         if inputs.proc_input.trajectory is None:
-            traj_name = list(inputs.proc_input.molecule)[0]
-            traj = {traj_name: Trajectory.from_file(traj_file)}
+            for key in traj_names:
+                for val in traj_file:
+                    traj[key]: Trajectory.from_file(
+                        val
+                    )  # Use names in Molecule to name trajectories
+                    traj_file.remove(val)
+                    break
         else:
-            traj_name = list(inputs.proc_input.trajectory)[0]
-            traj_files = {traj_name: traj_file}
             traj = {
-                key: Trajectory.from_file(trajs_files[key])
+                key: Trajectory.from_file(inputs.trajectory)
                 for key in inputs.proc_input.trajectory
             }
 
         mol_file = inputs.molecule
-        mol_name = list(inputs.proc_input.molecule)[0]
-        mol_files = {mol_name: mol_file}
-        mol = {
-            key: Molecule.from_file(mol_files[key])
-            for key in inputs.proc_input.molecule
-        }
+        mol = Molecule.from_file(mol_file)
+        mols = [mol]
         self.cleanup([inputs.scratch_dir])
 
         return True, OutputMD(
             proc_input=inputs.proc_input,
-            molecule=mol,
+            molecule=mols,
             trajectory=traj,
             schema_name=inputs.proc_input.schema_name,
             schema_version=inputs.proc_input.schema_version,

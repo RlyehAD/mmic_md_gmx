@@ -70,10 +70,10 @@ class PrepGmxComponent(GenericComponent):
             mdp_inputs[key] = val
 
         # Extract T couple and P couple setup
-        for key, val in inputs.Tcoupl_arg.items():
+        for key, val in inputs.temp_couple.items():
             mdp_inputs[key] = val
 
-        for key, val in inputs.Pcoupl_arg.items():
+        for key, val in inputs.press_couple.items():
             mdp_inputs[key] = val
 
         # Translate boundary str tuple (perodic,perodic,perodic) to a string e.g. xyz
@@ -87,11 +87,12 @@ class PrepGmxComponent(GenericComponent):
         mdp_inputs["pbc"] = pbc
 
         # Write .mdp file
-        mdp_file = tempfile.NamedTemporaryFile(suffix=".mdp")
-        with open(mdp_file, "w") as inp:
+        mdp_file = tempfile.NamedTemporaryFile(suffix=".mdp", delete=False)
+        with open(mdp_file.name, "w") as inp:
             for key, val in mdp_inputs.items():
                 inp.write(f"{key} = {val}\n")
 
+        """
         fs = inputs.forcefield
         mols = inputs.molecule
 
@@ -99,18 +100,21 @@ class PrepGmxComponent(GenericComponent):
             fs.items()
         ).pop()  # Here ff_name gets actually the related mol name, but it will not be used
         mol_name, mol = list(mols.items()).pop()
+        """
 
-        gro_file = tempfile.NamedTemporaryFile(suffix=".gro")  # output gro
-        top_file = tempfile.NamedTemporaryFile(suffix=".top")
-        boxed_gro_file = tempfile.NamedTemporaryFile(suffix=".gro")
+        mol, ff = list(inputs.system.items()).pop()
 
-        mol.to_file(gro_file, translator="mmic_parmed")
-        ff.to_file(top_file, translator="mmic_parmed")
+        gro_file = tempfile.NamedTemporaryFile(suffix=".gro", delete=False)  # output gro
+        top_file = tempfile.NamedTemporaryFile(suffix=".top", delete=False)
+        boxed_gro_file = tempfile.NamedTemporaryFile(suffix=".gro", delete=False)
+
+        mol.to_file(gro_file.name, translator="mmic_parmed")
+        ff.to_file(top_file.name, translator="mmic_parmed")
 
         input_model = {
-            "gro_file": gro_file,
+            "gro_file": gro_file.name,
             "proc_input": inputs,
-            "boxed_gro_file": boxed_gro_file,
+            "boxed_gro_file": boxed_gro_file.name,
         }
         clean_files, cmd_input = self.build_input(input_model)
         rvalue = CmdComponent.compute(cmd_input)
@@ -120,9 +124,9 @@ class PrepGmxComponent(GenericComponent):
 
         gmx_compute = InputComputeGmx(
             proc_input=inputs,
-            mdp_file=mdp_file,
-            forcefield=top_file,
-            molecule=boxed_gro_file,
+            mdp_file=mdp_file.name,
+            forcefield=top_file.name,
+            molecule=boxed_gro_file.name,
             scratch_dir=scratch_dir,
             schema_name=inputs.schema_name,
             schema_version=inputs.schema_version,
@@ -176,8 +180,8 @@ class PrepGmxComponent(GenericComponent):
             {
                 "command": cmd,
                 "infiles": [inputs["gro_file"]],
-                "outfiles": [Path(file).name for file in outfiles],
-                "outfiles_track": [Path(file).name for file in outfiles],
+                "outfiles": outfiles,
+                "outfiles_track": outfiles,
                 "scratch_directory": scratch_directory,
                 "environment": env,
                 "scratch_messy": True,

@@ -45,7 +45,7 @@ class MDGmxComponent(TacticComponent):
 
         computeInput = PrepGmxComponent.compute(inputs)
         computeOutput = ComputeGmxComponent.compute(computeInput)
-        MDOutput = PostGmxComponent.compute(computeOutput)
+        OutputMD = PostGmxComponent.compute(computeOutput)
         return True, OutputMD
 
     def get_version(cls) -> str:
