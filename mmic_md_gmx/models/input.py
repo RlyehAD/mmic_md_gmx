@@ -1,12 +1,12 @@
-from cmselemental.models.procedures import ProcInput
-from mmic_md.models import MDInput
+from cmselemental.models.procedures import InputProc
+from mmic_md.models import InputMD
 from pydantic import Field
 
-__all__ = ["ComputeGmxInput"]
+__all__ = ["InputComputeGmx"]
 
 
-class ComputeGmxInput(ProcInput):
-    proc_input: MDInput = Field(..., description="Procedure input schema.")
+class InputComputeGmx(ProcInput):
+    proc_input: InputMD = Field(..., description="Procedure input schema.")
     mdp_file: str = Field(
         ...,
         description="The file used for specifying the parameters. Should be a .mdp file.",

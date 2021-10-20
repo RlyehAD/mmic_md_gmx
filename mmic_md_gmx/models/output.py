@@ -1,12 +1,12 @@
 from mmelemental.models.base import ProtoModel
-from mmic_md.models import MDInput
+from mmic_md.models import InputMD
 from pydantic import Field
 
 
-__all__ = ["ComputeGmxOutput"]
+__all__ = ["OutputComputeGmx"]
 
 
-class ComputeGmxOutput(ProtoModel):
+class OutputComputeGmx(ProtoModel):
     proc_input: MDInput = Field(..., description="Procedure input schema.")
     molecule: str = Field(..., description="Molecule file string object")
     trajectory: str = Field(..., description="Trajectory file string object.")
