@@ -7,7 +7,7 @@ __all__ = ["OutputComputeGmx"]
 
 
 class OutputComputeGmx(ProtoModel):
-    proc_input: MDInput = Field(..., description="Procedure input schema.")
+    proc_input: InputMD = Field(..., description="Procedure input schema.")
     molecule: str = Field(..., description="Molecule file string object")
     trajectory: str = Field(..., description="Trajectory file string object.")
     scratch_dir: str = Field(

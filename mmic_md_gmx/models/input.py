@@ -5,7 +5,7 @@ from pydantic import Field
 __all__ = ["InputComputeGmx"]
 
 
-class InputComputeGmx(ProcInput):
+class InputComputeGmx(InputProc):
     proc_input: InputMD = Field(..., description="Procedure input schema.")
     mdp_file: str = Field(
         ...,
