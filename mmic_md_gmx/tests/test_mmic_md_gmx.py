@@ -5,7 +5,7 @@ Unit and regression test for the mmic_md_gmx package.
 # Import package, test suite, and other packages as needed
 import mmelemental
 import mmic_md
-from mmic_md import MDInput, MDOutput
+from mmic_md import InputMD, OutputMD
 from mmelemental.models import Molecule, Trajectory, ForceField
 import mmic_md_gmx
 
@@ -30,7 +30,7 @@ def test_md_component():
     mol = mmelemental.models.Molecule.from_file(mm_data.mols["water-mol.json"])
     ff = mmelemental.models.ForceField.from_file(mm_data.ffs["water-ff.json"])
 
-    inputs = mmic_md.MDInput(
+    inputs = mmic_md.InputMD(
         engine="gmx",
         schema_name="test",
         schema_version=1.0,
