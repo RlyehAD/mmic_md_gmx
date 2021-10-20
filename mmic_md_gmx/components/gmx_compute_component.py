@@ -1,5 +1,5 @@
 # Import models
-from ..models import ComputeGmxInput, ComputeGmxOutput
+from ..models import InputComputeGmx, OutputComputeGmx
 from cmselemental.util.decorators import classproperty
 
 # Import components
@@ -18,24 +18,34 @@ __all__ = ["ComputeGmxComponent"]
 class ComputeGmxComponent(GenericComponent):
     @classproperty
     def input(cls):
-        return ComputeGmxInput
+        return InputComputeGmx
 
     @classproperty
     def output(cls):
-        return ComputeGmxOutput
+        return OutputComputeGmx
+
+    @classproperty
+    def version(cls) -> str:
+        """Finds program, extracts version, returns normalized version string.
+        Returns
+        -------
+        str
+            Return a valid, safe python version string.
+        """
+        return ""
 
     def execute(
         self,
-        inputs: ComputeGmxInput,
+        inputs: InputComputeGmx,
         extra_outfiles: Optional[List[str]] = None,
         extra_commands: Optional[List[str]] = None,
         scratch_name: Optional[str] = None,
         timeout: Optional[int] = None,
-    ) -> Tuple[bool, ComputeGmxOutput]:
+    ) -> Tuple[bool, OutputComputeGmx]:
 
         # Call gmx pdb2gmx, mdrun, etc. here
         if isinstance(inputs, dict):
-            inputs = self.input()(**inputs)
+            inputs = self.input(**inputs)
 
         # Extract info from ComputeGmxInput
         proc_input, mdp_file, gro_file, top_file = (
@@ -192,7 +202,7 @@ class ComputeGmxComponent(GenericComponent):
 
     def parse_output(
         self, output: Dict[str, str], inputs: Dict[str, Any]
-    ) -> ComputeGmxInput:
+    ) -> OutputComputeGmx:
         # stdout = output["stdout"]
         # stderr = output["stderr"]
         outfiles = output["outfiles"]

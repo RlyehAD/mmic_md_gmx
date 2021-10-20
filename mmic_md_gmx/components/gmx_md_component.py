@@ -1,5 +1,5 @@
 # Import schema models for md simulation
-from mmic_md.models import MDInput, MDOutput
+from mmic_md.models import InputMD, OutputMD
 
 # Import subcomponents for running md simulation with GMX
 from .gmx_prep_component import PrepGmxComponent
@@ -18,25 +18,35 @@ class MDGmxComponent(TacticComponent):
 
     @classproperty
     def input(cls):
-        return MDInput
+        return InputMD
 
     @classproperty
     def output(cls):
-        return MDOutput
+        return OutputMD
+
+    @classproperty
+    def version(cls) -> str:
+        """Finds program, extracts version, returns normalized version string.
+        Returns
+        -------
+        str
+            Return a valid, safe python version string.
+        """
+        return ""
 
     def execute(
         self,
-        inputs: MDInput,
+        inputs: InputMD,
         extra_outfiles: Optional[List[str]] = None,
         extra_commands: Optional[List[str]] = None,
         scratch_name: Optional[str] = None,
         timeout: Optional[int] = None,
-    ) -> Tuple[bool, MDOutput]:
+    ) -> Tuple[bool, OutputMD]:
 
         computeInput = PrepGmxComponent.compute(inputs)
         computeOutput = ComputeGmxComponent.compute(computeInput)
         MDOutput = PostGmxComponent.compute(computeOutput)
-        return True, MDOutput
+        return True, OutputMD
 
     def get_version(cls) -> str:
         """Finds program, extracts version, returns normalized version string.

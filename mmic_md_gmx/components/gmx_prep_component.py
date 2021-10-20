@@ -1,6 +1,6 @@
 # Import models
-from mmic_md.models.input import MDInput
-from mmic_md_gmx.models import ComputeGmxInput
+from mmic_md.models.input import InputMD
+from mmic_md_gmx.models import InputComputeGmx
 
 # Import components
 from mmic_cmd.components import CmdComponent
@@ -27,23 +27,33 @@ class PrepGmxComponent(GenericComponent):
 
     @classproperty
     def input(cls):
-        return MDInput
+        return InputMD
 
     @classproperty
     def output(cls):
-        return ComputeGmxInput
+        return InputComputeGmx
+
+    @classproperty
+    def version(cls) -> str:
+        """Finds program, extracts version, returns normalized version string.
+        Returns
+        -------
+        str
+            Return a valid, safe python version string.
+        """
+        return ""
 
     def execute(
         self,
-        inputs: MDInput,
+        inputs: InputMD,
         extra_outfiles: Optional[List[str]] = None,
         extra_commands: Optional[List[str]] = None,
         scratch_name: Optional[str] = None,
         timeout: Optional[int] = None,
-    ) -> Tuple[bool, ComputeGmxInput]:
+    ) -> Tuple[bool, InputComputeGmx]:
 
         if isinstance(inputs, dict):
-            inputs = self.input()(**inputs)
+            inputs = self.input(**inputs)
 
         # Start to build mdp file dict
         mdp_inputs = {
@@ -108,7 +118,7 @@ class PrepGmxComponent(GenericComponent):
         scratch_dir = str(rvalue.scratch_directory)
         self.cleanup(clean_files)  # Del the gro in the working dir
 
-        gmx_compute = ComputeGmxInput(
+        gmx_compute = InputComputeGmx(
             proc_input=inputs,
             mdp_file=mdp_file,
             forcefield=top_file,
