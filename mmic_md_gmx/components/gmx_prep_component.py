@@ -5,6 +5,7 @@ from mmic_md_gmx.models import ComputeGmxInput
 # Import components
 from mmic_cmd.components import CmdComponent
 from mmic.components.blueprints import GenericComponent
+from cmselemental.util.decorators import classproperty
 
 from pathlib import Path
 from typing import Any, Dict, List, Tuple, Optional
@@ -24,11 +25,11 @@ class PrepGmxComponent(GenericComponent):
     according to the info in MMIC schema.
     """
 
-    @classmethod
+    @classproperty
     def input(cls):
         return MDInput
 
-    @classmethod
+    @classproperty
     def output(cls):
         return ComputeGmxInput
 

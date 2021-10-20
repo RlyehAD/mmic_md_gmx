@@ -7,6 +7,7 @@ from .gmx_compute_component import ComputeGmxComponent
 from .gmx_post_component import PostGmxComponent
 
 from mmic.components.blueprints import TacticComponent
+from cmselemental.util.decorators import classproperty
 from typing import Optional, Tuple, List, Any
 
 __all__ = ["MDGmxComponent"]
@@ -15,11 +16,11 @@ __all__ = ["MDGmxComponent"]
 class MDGmxComponent(TacticComponent):
     """Main entry component for running md simulation."""
 
-    @classmethod
+    @classproperty
     def input(cls):
         return MDInput
 
-    @classmethod
+    @classproperty
     def output(cls):
         return MDOutput
 
@@ -47,7 +48,7 @@ class MDGmxComponent(TacticComponent):
         raise NotImplementedError
 
     @classmethod
-    def strategy_comp(cls) -> Any:
+    def strategy_comps(cls) -> Any:
         """Returns the strategy component this (tactic) component belongs to.
         Returns
         -------

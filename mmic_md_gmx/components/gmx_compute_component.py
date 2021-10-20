@@ -1,5 +1,6 @@
 # Import models
 from ..models import ComputeGmxInput, ComputeGmxOutput
+from cmselemental.util.decorators import classproperty
 
 # Import components
 from mmic_cmd.components import CmdComponent
@@ -15,11 +16,11 @@ __all__ = ["ComputeGmxComponent"]
 
 
 class ComputeGmxComponent(GenericComponent):
-    @classmethod
+    @classproperty
     def input(cls):
         return ComputeGmxInput
 
-    @classmethod
+    @classproperty
     def output(cls):
         return ComputeGmxOutput
 

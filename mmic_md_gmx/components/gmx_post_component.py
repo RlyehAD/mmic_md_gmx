@@ -2,6 +2,7 @@
 from mmic_md.models.output import MDOutput
 from mmelemental.models import Molecule, Trajectory
 from ..models import ComputeGmxOutput
+from cmselemental.util.decorators import classproperty
 
 # Import components
 from mmic.components.blueprints import GenericComponent
@@ -15,11 +16,11 @@ __all__ = ["PostGmxComponent"]
 
 
 class PostGmxComponent(GenericComponent):
-    @classmethod
+    @classproperty
     def input(cls):
         return ComputeGmxOutput
 
-    @classmethod
+    @classproperty
     def output(cls):
         return MDOutput
 
