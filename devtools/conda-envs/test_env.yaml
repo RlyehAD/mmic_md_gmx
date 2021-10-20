@@ -18,15 +18,17 @@ dependencies:
   
     # Pip-only installs
   - pip:
-    - git+https://github.com/MolSSI/cmselemental.git@v0.2.0
+    - cmselemental
     - git+https://github.com/parmed/parmed.git
     - mmic
     - git+https://github.com/RlyehAD/mmic_md.git
     - git+https://github.com/MolSSI/mmic_optim.git
     - git+https://github.com/MolSSI/mmelemental.git
     - git+https://github.com/MolSSI/mmic_translator.git
-    - git+https://github.com/MolSSI/mmic_parmed.git
+    - git+https://github.com/RlyehAD/mmic_parmed.git
+    #- git+https://github.com/MolSSI/mmic_parmed.git
     - git+https://github.com/MolSSI/mmic_mda.git
-    - git+https://github.com/MolSSI/mmic_cmd.git
+    #- git+https://github.com/MolSSI/mmic_cmd.git
+    - git+https://github.com/RlyehAD/mmic_cmd.git
     - git+https://github.com/MolSSI/mm_data.git
     - git+https://github.com/Andrew-AbiMansour/qcengine@execute
