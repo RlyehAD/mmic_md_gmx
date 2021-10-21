@@ -87,8 +87,8 @@ class PrepGmxComponent(GenericComponent):
         mdp_inputs["pbc"] = pbc
 
         # Write .mdp file
-        mdp_file = tempfile.NamedTemporaryFile(suffix=".mdp", delete=False)
-        with open(mdp_file.name, "w") as inp:
+        mdp_file = tempfile.NamedTemporaryFile(suffix=".mdp", delete=False).name
+        with open(mdp_file, "w") as inp:
             for key, val in mdp_inputs.items():
                 inp.write(f"{key} = {val}\n")
 
@@ -105,18 +105,18 @@ class PrepGmxComponent(GenericComponent):
         mol, ff = list(inputs.system.items()).pop()
 
         gro_file = tempfile.NamedTemporaryFile(
-            suffix=".gro", delete=False
-        )  # output gro
-        top_file = tempfile.NamedTemporaryFile(suffix=".top", delete=False)
-        boxed_gro_file = tempfile.NamedTemporaryFile(suffix=".gro", delete=False)
+            suffix=".gro"
+        ).name  # output gro
+        top_file = tempfile.NamedTemporaryFile(suffix=".top").name
+        boxed_gro_file = tempfile.NamedTemporaryFile(suffix=".gro").name
 
-        mol.to_file(gro_file.name, translator="mmic_parmed")
-        ff.to_file(top_file.name, translator="mmic_parmed")
+        mol.to_file(gro_file, translator="mmic_parmed")
+        ff.to_file(top_file, translator="mmic_parmed")
 
         input_model = {
-            "gro_file": gro_file.name,
+            "gro_file": gro_file,
             "proc_input": inputs,
-            "boxed_gro_file": boxed_gro_file.name,
+            "boxed_gro_file": boxed_gro_file,
         }
         clean_files, cmd_input = self.build_input(input_model)
         rvalue = CmdComponent.compute(cmd_input)
@@ -126,9 +126,9 @@ class PrepGmxComponent(GenericComponent):
 
         gmx_compute = InputComputeGmx(
             proc_input=inputs,
-            mdp_file=mdp_file.name,
-            forcefield=top_file.name,
-            molecule=boxed_gro_file.name,
+            mdp_file=mdp_file,
+            forcefield=top_file,
+            molecule=boxed_gro_file,
             scratch_dir=scratch_dir,
             schema_name=inputs.schema_name,
             schema_version=inputs.schema_version,
