@@ -6,7 +6,7 @@
 [![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/RlyehAD/mmic_md_gmx.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/RlyehAD/mmic_md_gmx/context:python)
 
 
-This is part of the [MolSSI](http://molssi.org) Molecular Mechanics Interoperable Components ([MMIC](https://github.com/MolSSI/mmic)) project. This package provides a Tactic component for running Molecular Dynamics simulations with GMX engine for systems composed by molecules and their forcefields.
+This is part of the [MolSSI](http://molssi.org) Molecular Mechanics Interoperable Components ([MMIC](https://github.com/MolSSI/mmic)) project. This package provides a Tactic component for [mmic_md](https://github.com/RlyehAD/mmic_md.git) using the [Gromacs](http://www.gromacs.org) software suite
 
 ## Preparing Input
 ```python
